@@ -134,6 +134,9 @@ output "cluster_master_auth_cluster_ca_certificate" {
   value = google_container_cluster.default.master_auth.0.cluster_ca_certificate
 }
 
+output "cluster_access_token" {
+  value = data.google_client_config.current.access_token
+}
 // resource "google_container_cluster" "k8sexample" {
 //   name               = "k8s-cluster-${var.env}"
 //   description        = "example k8s cluster"
