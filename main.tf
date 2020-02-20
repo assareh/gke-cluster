@@ -80,7 +80,7 @@ data "google_container_engine_versions" "default" {
 resource "google_container_cluster" "default" {
   name               = var.gcp_project
   location           = var.gcp_zone
-  initial_node_count = 3
+  initial_node_count = 4
   min_master_version = data.google_container_engine_versions.default.latest_master_version
   network            = data.terraform_remote_state.network.outputs.network
   subnetwork         = data.terraform_remote_state.network.outputs.subnetwork_name
