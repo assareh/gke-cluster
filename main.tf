@@ -44,8 +44,8 @@ resource "google_container_cluster" "k8sexample" {
     }
   }
 
-  network    = "assareh-gke"
-  subnetwork = "subnet-01"
+  network    = data.terraform_remote_state.network.outputs.network_name
+  subnetwork = data.terraform_remote_state.network.outputs.subnet_name[0]
 
   node_config {
     machine_type = var.node_machine_type
