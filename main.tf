@@ -17,7 +17,7 @@ provider "google" {
 }
 
 resource "google_container_cluster" "k8sexample" {
-  name               = "k8s-cluster"
+  name               = format("%s-%s", "k8s-cluster", var.env)
   description        = "example k8s cluster"
   location           = "${var.gcp_zone}"
   initial_node_count = "${var.initial_node_count}"

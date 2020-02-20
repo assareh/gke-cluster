@@ -55,6 +55,10 @@ variable "labels" {
   }
 }
 
+variable "env" {
+  description = "git branch or environment"
+}
+
 // variable "vault_user" {
 //   description = "Vault userid: determines location of secrets and affects path of k8s auth backend"
 // }
