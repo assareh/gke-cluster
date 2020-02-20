@@ -2,6 +2,12 @@ terraform {
   required_version = ">= 0.11.11"
 }
 
+provider "google" {
+  credentials = "${var.gcp_credentials}"
+  project     = "${var.gcp_project}"
+  region      = "${var.gcp_region}"
+}
+
 // provider "vault" {
 //   address = "${var.vault_addr}"
 // }
@@ -10,10 +16,15 @@ terraform {
 //   path = "secret/${var.vault_user}/gcp/credentials"
 // }
 
-provider "google" {
-  credentials = "${var.gcp_credentials}"
-  project     = "${var.gcp_project}"
-  region      = "${var.gcp_region}"
+data "terraform_remote_state" "network" {
+  backend = "remote"
+
+  config = {
+    organization = "multicloud-provisioning-demo"
+    workspaces = {
+      name = "gke-network"
+    }
+  }
 }
 
 resource "google_container_cluster" "k8sexample" {
@@ -32,6 +43,8 @@ resource "google_container_cluster" "k8sexample" {
       issue_client_certificate = true
     }
   }
+
+  network = "assareh-gke"
 
   node_config {
     machine_type = "${var.node_machine_type}"
