@@ -80,7 +80,6 @@ data "google_container_engine_versions" "default" {
 resource "google_container_cluster" "default" {
   name               = var.gcp_project
   location           = var.gcp_zone
-  initial_node_count = 4
   min_master_version = data.google_container_engine_versions.default.latest_master_version
   network            = data.terraform_remote_state.network.outputs.network
   subnetwork         = data.terraform_remote_state.network.outputs.subnetwork_name
@@ -97,10 +96,23 @@ resource "google_container_cluster" "default" {
     command = "sleep 90"
   }
 
+  # We can't create a cluster with no node pool defined, but we want to only use
+  # separately managed node pools. So we create the smallest possible default
+  # node pool and immediately delete it.
+  remove_default_node_pool = true
+  initial_node_count       = 1
+}
+
+resource "google_container_node_pool" "primary_preemptible_nodes" {
+  name       = "my-node-pool"
+  location   = var.gcp_zone
+  cluster    = google_container_cluster.default.name
+  node_count = 3
+
   node_config {
+    preemptible  = true
     machine_type = var.node_machine_type
     disk_size_gb = var.node_disk_size
-  }
 }
 
 output "cluster_name" {
