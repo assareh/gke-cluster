@@ -44,7 +44,8 @@ resource "google_container_cluster" "k8sexample" {
     }
   }
 
-  network = "subnet-01"
+  network    = "assareh-gke"
+  subnetwork = "subnet-01"
 
   node_config {
     machine_type = var.node_machine_type
