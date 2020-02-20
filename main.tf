@@ -21,7 +21,6 @@ resource "google_container_cluster" "k8sexample" {
   description             = "example k8s cluster"
   location                = "${var.gcp_zone}"
   initial_node_count      = "${var.initial_node_count}"
-  enable_kubernetes_alpha = "true"
   enable_legacy_abac      = "true"
   resource_labels         = var.labels
 
