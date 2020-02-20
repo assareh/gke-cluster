@@ -121,7 +121,7 @@ output "cluster_name" {
 }
 
 output "cluster_region" {
-  value = google_container_cluster.default.region
+  value = google_container_cluster.default.location
 }
 
 output "cluster_zone" {
