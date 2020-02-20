@@ -18,7 +18,7 @@ variable "gcp_project" {
 
 variable "initial_node_count" {
   description = "Number of worker VMs to initially create"
-  default     = 1
+  default     = 3
 }
 
 variable "master_username" {
