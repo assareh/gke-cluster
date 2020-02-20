@@ -28,7 +28,7 @@ data "terraform_remote_state" "network" {
 }
 
 resource "google_container_cluster" "k8sexample" {
-  name               = format("%s-%s", "k8s-cluster", var.env)
+  name               = "k8s-cluster-${var.env}"
   description        = "example k8s cluster"
   location           = var.gcp_zone
   initial_node_count = var.initial_node_count
