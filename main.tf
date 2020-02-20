@@ -25,15 +25,15 @@ variable "initial_node_count" {
   default     = 3
 }
 
-variable "master_username" {
-  description = "Username for accessing the Kubernetes master endpoint"
-  default     = "k8smaster"
-}
+// variable "master_username" {
+//   description = "Username for accessing the Kubernetes master endpoint"
+//   default     = "k8smaster"
+// }
 
-variable "master_password" {
-  description = "Password for accessing the Kubernetes master endpoint"
-  default     = "k8smasterk8smaster"
-}
+// variable "master_password" {
+//   description = "Password for accessing the Kubernetes master endpoint"
+//   default     = "k8smasterk8smaster"
+// }
 
 variable "node_machine_type" {
   description = "GCE machine type"
@@ -96,6 +96,11 @@ resource "google_container_cluster" "default" {
     when    = destroy
     command = "sleep 90"
   }
+
+  node_config {
+    machine_type = var.node_machine_type
+    disk_size_gb = var.node_disk_size
+  }
 }
 
 output "cluster_name" {
@@ -137,6 +142,7 @@ output "cluster_master_auth_cluster_ca_certificate" {
 output "cluster_access_token" {
   value = data.google_client_config.current.access_token
 }
+
 // resource "google_container_cluster" "k8sexample" {
 //   name               = "k8s-cluster-${var.env}"
 //   description        = "example k8s cluster"
