@@ -135,7 +135,7 @@ resource "kubernetes_namespace" "dev_namespace" {
 resource "kubernetes_resource_quota" "example" {
   metadata {
     name = "quota-example"
-    namespace = kubernetes_namespace.staging.metadata.0.name
+    namespace = kubernetes_namespace.dev_namespace.metadata.0.name
   }
 
   spec {
@@ -185,5 +185,5 @@ output "cluster_access_token" {
 }
 
 output "cluster_namespace" {
-  value = kubernetes_namespace.staging.metadata.0.name
+  value = kubernetes_namespace.dev_namespace.metadata.0.name
 }
