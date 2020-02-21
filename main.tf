@@ -116,6 +116,18 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   }
 }
 
+resource "kubernetes_resource_quota" "example" {
+  metadata {
+    name = "terraform-example"
+  }
+  spec {
+    hard = {
+      deployments = 1
+    }
+    scopes = ["BestEffort"]
+  }
+}
+    
 output "cluster_name" {
   value = google_container_cluster.default.name
 }
