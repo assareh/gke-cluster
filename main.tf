@@ -116,6 +116,16 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   }
 }
 
+provider "kubernetes" {
+  #version                = "1.10.0"
+  load_config_file       = "false"
+  host                   = "https://${google_container_cluster.default.endpoint}"
+  token                  = data.google_client_config.current.access_token
+  client_certificate     = base64decode(google_container_cluster.default.master_auth.0.client_certificate)
+  client_key             = base64decode(google_container_cluster.default.master_auth.0.client_key)
+  cluster_ca_certificate = base64decode(google_container_cluster.default.master_auth.0.cluster_ca_certificate)
+}
+
 resource "kubernetes_resource_quota" "example" {
   metadata {
     name = "terraform-example"
@@ -127,7 +137,7 @@ resource "kubernetes_resource_quota" "example" {
     scopes = ["BestEffort"]
   }
 }
-    
+
 output "cluster_name" {
   value = google_container_cluster.default.name
 }
@@ -163,35 +173,3 @@ output "cluster_master_auth_cluster_ca_certificate" {
 output "cluster_access_token" {
   value = data.google_client_config.current.access_token
 }
-
-// resource "google_container_cluster" "k8sexample" {
-//   name               = "k8s-cluster-${var.env}"
-//   description        = "example k8s cluster"
-//   location           = var.gcp_zone
-//   initial_node_count = var.initial_node_count
-//   enable_legacy_abac = "true"
-//   resource_labels    = var.labels
-
-//   master_auth {
-//     username = var.master_username
-//     password = var.master_password
-
-//     client_certificate_config {
-//       issue_client_certificate = true
-//     }
-//   }
-
-//   network    = data.terraform_remote_state.network.outputs.network_name
-//   subnetwork = data.terraform_remote_state.network.outputs.subnet_name[0]
-
-//   node_config {
-//     machine_type = var.node_machine_type
-//     disk_size_gb = var.node_disk_size
-//     oauth_scopes = [
-//       "https://www.googleapis.com/auth/compute",
-//       "https://www.googleapis.com/auth/devstorage.read_only",
-//       "https://www.googleapis.com/auth/logging.write",
-//       "https://www.googleapis.com/auth/monitoring"
-//     ]
-//   }
-// }
