@@ -37,7 +37,7 @@ variable "initial_node_count" {
 
 variable "node_machine_type" {
   description = "GCE machine type"
-  default     = "g1-small"
+  default     = "n1-standard-1"
 }
 
 variable "node_disk_size" {
