@@ -132,7 +132,7 @@ resource "kubernetes_resource_quota" "example" {
   }
   spec {
     hard = {
-      deployments = 1
+      pods = 1
     }
     scopes = ["BestEffort"]
   }
