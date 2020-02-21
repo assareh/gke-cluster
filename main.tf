@@ -126,21 +126,22 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(google_container_cluster.default.master_auth.0.cluster_ca_certificate)
 }
 
-resource "kubernetes_namespace" "staging" {
+resource "kubernetes_namespace" "dev_namespace" {
   metadata {
-    name = "staging"
+    name = "development"
   }
 }
 
 resource "kubernetes_resource_quota" "example" {
   metadata {
-    name = "terraform-example"
+    name = "quota-example"
     namespace = kubernetes_namespace.staging.metadata.0.name
   }
 
   spec {
     hard = {
-      pods = 3
+      pods = 6
+      services = 2
     }
 
     scopes = ["BestEffort"]
