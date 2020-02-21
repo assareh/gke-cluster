@@ -107,7 +107,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   name       = "my-node-pool"
   location   = var.gcp_zone
   cluster    = google_container_cluster.default.name
-  node_count = 5
+  node_count = 4
 
   node_config {
     preemptible  = true
