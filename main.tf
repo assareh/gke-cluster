@@ -126,14 +126,23 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(google_container_cluster.default.master_auth.0.cluster_ca_certificate)
 }
 
+resource "kubernetes_namespace" "staging" {
+  metadata {
+    name = "staging"
+  }
+}
+
 resource "kubernetes_resource_quota" "example" {
   metadata {
     name = "terraform-example"
+    namespace = kubernetes_namespace.staging.metadata.0.name
   }
+
   spec {
     hard = {
-      pods = 1
+      pods = 3
     }
+
     scopes = ["BestEffort"]
   }
 }
@@ -172,4 +181,8 @@ output "cluster_master_auth_cluster_ca_certificate" {
 
 output "cluster_access_token" {
   value = data.google_client_config.current.access_token
+}
+
+output "cluster_namespace" {
+  value = kubernetes_namespace.staging.metadata.0.name
 }
