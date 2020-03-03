@@ -66,7 +66,7 @@ data "terraform_remote_state" "network" {
   config = {
     organization = "multicloud-provisioning-demo"
     workspaces = {
-      name = "01-gke-network"
+      name = "gke-01-network"
     }
   }
 }
