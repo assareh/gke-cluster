@@ -5,7 +5,7 @@ resource "google_compute_address" "default" {
 
 resource "kubernetes_service" "nginx" {
   metadata {
-    namespace = kubernetes_namespace.dev_namespace.metadata.0.name
+    #namespace = kubernetes_namespace.dev_namespace.metadata.0.name
     name      = "nginx"
   }
 
@@ -28,7 +28,7 @@ resource "kubernetes_service" "nginx" {
 resource "kubernetes_deployment" "nginx" {
   metadata {
     name = "nginx"
-    namespace = kubernetes_namespace.dev_namespace.metadata.0.name
+   # namespace = kubernetes_namespace.dev_namespace.metadata.0.name
     labels = {
       app = "nginx"
     }
