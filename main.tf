@@ -126,16 +126,16 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(google_container_cluster.default.master_auth.0.cluster_ca_certificate)
 }
 
-resource "kubernetes_namespace" "dev_namespace" {
-  metadata {
-    name = "development"
-  }
-}
+# resource "kubernetes_namespace" "dev_namespace" {
+#  metadata {
+#    name = "development"
+#  }
+#}
 
 resource "kubernetes_resource_quota" "example" {
   metadata {
     name = "quota-example"
-    namespace = kubernetes_namespace.dev_namespace.metadata.0.name
+   # namespace = kubernetes_namespace.dev_namespace.metadata.0.name
   }
 
   spec {
@@ -183,6 +183,6 @@ output "cluster_access_token" {
   value = data.google_client_config.current.access_token
 }
 
-output "cluster_namespace" {
-  value = kubernetes_namespace.dev_namespace.metadata.0.name
-}
+#output "cluster_namespace" {
+#  value = kubernetes_namespace.dev_namespace.metadata.0.name
+#}
